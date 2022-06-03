@@ -7,13 +7,19 @@ const connection = createConnection({
     host: 'db',
     user: 'root',
     password: 'root',
-    database: 'full-cycle'
+    database: 'nodedb'
 })
 
 connection.connect(() => {
     createTable()
+    // createDB()
     console.log(`Database connected!!!`)
 })
+function createDB(params) {
+    connection.query(`
+    CREATE DATABASE nodedb
+)`)
+}
 
 function createTable() {
     connection.query(`
@@ -26,7 +32,7 @@ function createTable() {
 
 let indexPeople = 0
 const server = http.createServer((req, res) => {
-    connection.query(`INSERT INTO PEOPLE (name) values ("Lucão do PHP Rules")`, (err, results, _) => {
+    connection.query(`INSERT INTO PEOPLE (name) values ("LUCAO ${indexPeople} DO PHP RULES")`, (err, results, _) => {
         connection.query(`SELECT * FROM PEOPLE as people`, (err, results, _) => {
             res.end(response(results))
             indexPeople++
